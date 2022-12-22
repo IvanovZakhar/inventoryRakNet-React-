@@ -1,4 +1,4 @@
-import { createElement, useState } from 'react';
+import { createElement, useState, useEffect } from 'react';
 
 import './inv.css'
 
@@ -22,6 +22,26 @@ const Inv = () => {
     {id: 15, item: null},
     {id: 16, item: null}]
   );
+
+  const [className, setClass] = useState('hide')
+
+  useEffect(() => {
+    const onKeypress = e => console.log(e);
+  
+    document.addEventListener('keypress', (e) => {
+      e.key == 'y' ? setClass('inv active'): null;
+    });
+  
+    return () => {
+      document.removeEventListener('keypress', onKeypress);
+    };
+  }, []);
+
+  const event = new KeyboardEvent('keypress', {
+    key: 'enter',
+  });
+
+  console.log(event) 
 
   const[currentCard, setCurrentCard] = useState(null);
 
@@ -65,7 +85,7 @@ const Inv = () => {
       return -1
     }
   }
-  
+
 
         return(
           <div className="inv">
@@ -79,8 +99,10 @@ const Inv = () => {
                   onDragLeave={(e) => dragEndHandler(e, card)}
                   onDragEnd={(e) => dragEndHandler(e, card)}
                   onDragOver={(e) => dragOverHandler(e, card)}
-                  onDrop={(e) => dropHandler(e, card)}>
+                  onDrop={(e) => dropHandler(e, card)}
+                  onClick={() => {  mp.trigger('itemValue', JSON.stringify({'item': 'myGun'}))}}>
                   {card.item ? <img src={card.item} alt="item"/> : null }
+
                 </div>
                 )}
             </div>
