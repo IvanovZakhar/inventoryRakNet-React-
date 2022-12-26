@@ -1,9 +1,10 @@
 import { createElement, useState, useEffect } from 'react';
+import Tabs from '../tabs/tabs';
 
-import './inv.css'
+import './row.css'
 
 
-const Inv = () => {
+const Row = () => {
   const [inv, setInv] = useState(
 [    {id: 1, item: 'https://www.iconninja.com/files/477/796/985/mp5-gun-icon.png'},
     {id: 2, item: null},
@@ -23,19 +24,8 @@ const Inv = () => {
     {id: 16, item: null}]
   );
 
-  const [className, setClass] = useState('hide')
 
-  useEffect(() => {
-    const onKeypress = e => console.log(e);
-  
-    document.addEventListener('keypress', (e) => {
-      e.key == 'y' ? setClass('inv active'): null;
-    });
-  
-    return () => {
-      document.removeEventListener('keypress', onKeypress);
-    };
-  }, []);
+ 
 
   const event = new KeyboardEvent('keypress', {
     key: 'enter',
@@ -88,33 +78,31 @@ const Inv = () => {
 
 
         return(
-          <div className="inv">
-            <div className="row">
-              {inv.map(card => 
-                <div 
-                  key={card.id} 
-                  className="placeholder"
-                  draggable={true}
-                  onDragStart={(e) => dragStartHandler(e, card)}
-                  onDragLeave={(e) => dragEndHandler(e, card)}
-                  onDragEnd={(e) => dragEndHandler(e, card)}
-                  onDragOver={(e) => dragOverHandler(e, card)}
-                  onDrop={(e) => dropHandler(e, card)}
-                  onClick={() => {  mp.trigger('itemValue', JSON.stringify({'item': 'myGun'}))}}>
-                  {card.item ? <img src={card.item} alt="item"/> : null }
+          
+        
+              <div className="row">
+                <Tabs/>
+                {inv.map(card => 
+                  <div 
+                    key={card.id} 
+                    className="placeholder"
+                    draggable={true}
+                    onDragStart={(e) => dragStartHandler(e, card)}
+                    onDragLeave={(e) => dragEndHandler(e, card)}
+                    onDragEnd={(e) => dragEndHandler(e, card)}
+                    onDragOver={(e) => dragOverHandler(e, card)}
+                    onDrop={(e) => dropHandler(e, card)}
+                    onClick={() => {  mp.trigger('itemValue', JSON.stringify({'item': 'myGun'}))}}>
+                    {card.item ? <img src={card.item} alt="item"/> : null }
 
-                </div>
-                )}
-            </div>
-          </div>
+                  </div>
+                  )}
+              </div>
+ 
 
 
         )
     
 }
 
-const elem = (elem) => {
-
-}
-
-export default Inv;
+export default Row;

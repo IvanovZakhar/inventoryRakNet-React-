@@ -1,0 +1,46 @@
+
+.character{
+    display: flex;
+    width: 400px;
+    height: 523px;
+    background: #1f1d32;
+    position: relative;
+  }
+  
+  .character__left-column, .character__right-column{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+  
+  }
+  
+  .character__left-column{
+    padding-left: 0px;
+    left: 10px;
+    top: 25px
+  }
+  
+  .character__right-column{
+    right: 10px;
+    top: 25px
+  }
+  
+  .character-item{
+    margin: 3px;
+    margin-bottom: 0;
+    background-color: #bbb3b0;  
+  }
+  
+  .hands{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    margin: 3px;
+    position: absolute;
+    left: 36%;
+    bottom: 30px;
+    background-color: #bbb3b0;
+  }
