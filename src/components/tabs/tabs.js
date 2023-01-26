@@ -3,12 +3,12 @@ import './tabs.css'
 function Tabs () {
     return(
         <div className="tabs">
-            <div class="tab">BUY</div>
-            <div class="tab tab_active">INV</div>
-            <div class="tab">SELL</div>
-            <div class="tab">FRAC</div>
-            <div class="tab">CAR</div>
-            <div class="tab">HOUSE</div>
+            <div className="tab">BUY</div>
+            <div className="tab tab_active">INV</div>
+            <div className="tab">SELL</div>
+            <div className="tab">FRAC</div>
+            <div className="tab">CAR</div>
+            <div className="tab">HOUSE</div>
         </div>
     )
 }

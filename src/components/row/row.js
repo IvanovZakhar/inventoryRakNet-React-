@@ -1,46 +1,67 @@
-import { createElement, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { DragDropContainer, DropTarget } from 'react-drag-drop-container';
 import Tabs from '../tabs/tabs';
 
 import './row.css'
 
 
-const Row = () => {
+const Row = (props) => {
+  
+
+
+
+// Инвентарь с 16ю items
   const [inv, setInv] = useState(
-[    {id: 1, item: 'https://www.iconninja.com/files/477/796/985/mp5-gun-icon.png'},
-    {id: 2, item: null},
-    {id: 3, item: null},
-    {id: 4, item: null},
-    {id: 5, item: null},
-    {id: 6, item: null},
-    {id: 7, item: null},
-    {id: 8, item: null},
-    {id: 9, item: null},
-    {id: 10, item: null},
-    {id: 11, item: null},
-    {id: 12, item: null},
-    {id: 13, item: null},
-    {id: 14, item: null},
-    {id: 15, item: null},
-    {id: 16, item: null}]
+    [   {id: 1, item: null},
+        {id: 2, item: null},
+        {id: 3, item: null},
+        {id: 4, item: null},
+        {id: 5, item: null},
+        {id: 6, item: null},
+        {id: 7, item: null},
+        {id: 8, item: null},
+        {id: 9, item: null},
+        {id: 10, item: null},
+        {id: 11, item: null},
+        {id: 12, item: null},
+        {id: 13, item: null},
+        {id: 14, item: null},
+        {id: 15, item: null},
+        {id: 16, item: null}]
   );
 
+// При изменении props 
+useEffect(()=> {
+  // Элемент который получает укомплектованную по базу по инвентарю. 
+  const elem = props.data ? props.data.map((item, id) => {
+    // Получаем значение ключа
+    const elem = Object.values(item);
+  // Каждый раз вовзвращает id и item в котором содержится значения ключа
+    return {'id': id , item: elem[0]}
+  }): null;
+  // Проверка для браузера
+  elem ?  setInv(inv.map((item, id) => {
+    // Перебираем старый инвентарь и делаем проверку, если id меньше или равен количеству элементов..
+    if (id <= elem.length - 1){
+      // то возвращаем ему elem по порядку
+      return(elem[id])
+    }
+    // когда элементы заканчиваются, возвращаются пустые строки инвентаря.
+    return item
+  })) : null;
 
- 
+}, [props])
 
-  const event = new KeyboardEvent('keypress', {
-    key: 'enter',
-  });
 
-  console.log(event) 
 
+
+// Сложноватая технология drag and drop инвентаря, ссылка с объяснением  https://www.youtube.com/watch?v=FgvJH91a5K0
   const[currentCard, setCurrentCard] = useState(null);
 
 
   function dragStartHandler (e, card){
-    e.target.tagName === 'IMG' ? setCurrentCard(card) : e.preventDefault();
-    
-    
-    
+ 
+    e.target.tagName === 'IMG' ? setCurrentCard(card) : e.preventDefault(); 
   }
 
   function dragEndHandler(e, card) {
@@ -56,6 +77,7 @@ const Row = () => {
   }
 
   function dropHandler(e, card){
+  
     e.preventDefault();
     setInv(inv.sort(sortCards).map(c => {
       if(c.id === card.id){
@@ -76,32 +98,34 @@ const Row = () => {
     }
   }
 
+  const inventory = inv.map((card) => 
+              <DropTarget targetKey="item" 
+                onDragEnter={(e)=>  dragStartHandler(e, card)}
+                onHit={(e) => dropHandler(e, card)}
+                key={card.id}>
+            
+                <div className="placeholder" >
+                  
+                    <DragDropContainer targetKey="item" dragData ={card}>
+                    
+                      {card.item ? <img src={card.item} className="item" alt="item"/> : null }
+                    </DragDropContainer>
+                </div>
+              </DropTarget>
+       
+    ) 
 
-        return(
-          
-        
-              <div className="row">
-                <Tabs/>
-                {inv.map(card => 
-                  <div 
-                    key={card.id} 
-                    className="placeholder"
-                    draggable={true}
-                    onDragStart={(e) => dragStartHandler(e, card)}
-                    onDragLeave={(e) => dragEndHandler(e, card)}
-                    onDragEnd={(e) => dragEndHandler(e, card)}
-                    onDragOver={(e) => dragOverHandler(e, card)}
-                    onDrop={(e) => dropHandler(e, card)}
-                    onClick={() => {  mp.trigger('itemValue', JSON.stringify({'item': 'myGun'}))}}>
-                    {card.item ? <img src={card.item} alt="item"/> : null }
+  // onClick={() => {mp.trigger('itemValue', JSON.stringify({'item': 'myGun'}))}}
+  // onDragEnter={(e)=> console.log(` enter ${e}`)}
+  // onDragLeave={(e)=> console.log(` leave ${e}`)}
 
-                  </div>
-                  )}
-              </div>
- 
+  return(
 
-
-        )
+        <div className="row">
+          <Tabs/>
+           {inventory}
+        </div>  
+  )
     
 }
 
