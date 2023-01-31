@@ -20,7 +20,7 @@ const Inventory = () => {
 
 
     const { result } = InventoryItem()
-
+    console.log(result)
     // const [className, setClass] = useState('hide')
     //      const data = [
     //             {weapon:'mp-5', ammunition: '800'},
@@ -38,8 +38,7 @@ const Inventory = () => {
     //             document.removeEventListener('keypress', onKeypress);
     //         };
     //         }, []);
-console.log(data)
-console.log(data)
+
         return(
             <div className="inventory">
                 <Character/>
