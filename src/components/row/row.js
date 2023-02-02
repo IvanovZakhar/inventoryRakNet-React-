@@ -32,12 +32,14 @@ const Row = (props) => {
 
 // При изменении props 
 useEffect(()=> {
-  // Элемент который получает укомплектованную по базу по инвентарю. 
+  // Элемент который получает укомплектованную базу по инвентарю. 
   const elem = props.data ? props.data.map((item, id) => {
+    console.log(item)
     // Получаем значение ключа
     const elem = Object.values(item);
+    
   // Каждый раз вовзвращает id и item в котором содержится значения ключа
-    return {'id': id , item: elem[0]}
+    return {'id': id , item: elem[0], ammo: item.ammo, element: item.rageId}
   }): null;
   // Проверка для браузера
   elem ?  setInv(inv.map((item, id) => {
@@ -97,8 +99,9 @@ useEffect(()=> {
       return -1
     }
   }
-
+console.log(inv)
   const inventory = inv.map((card) => 
+ 
               <DropTarget targetKey="item" 
                 onDragEnter={(e)=>  dragStartHandler(e, card)}
                 onHit={(e) => dropHandler(e, card)}
@@ -106,9 +109,9 @@ useEffect(()=> {
             
                 <div className="placeholder" >
                   
-                    <DragDropContainer targetKey="item" dragData ={card}>
+                    <DragDropContainer targetKey="item" dragData = {card}>
                     
-                      {card.item ? <img src={card.item} className="item" alt="item"/> : null }
+                      { card.item ? <img src={card.item} className="item" alt="item"/> : null}
                     </DragDropContainer>
                 </div>
               </DropTarget>

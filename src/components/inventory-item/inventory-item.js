@@ -11,21 +11,25 @@ const InventoryItem = () => {
     // Получаем информацию данные с клиента
     if ("mp" in window){
         mp.events.add('setData', data => { 
+      
             setData(JSON.parse(data))
         })
     }
 
-
+    console.log(data)
     
     const result = data ? arr.filter((item, i) => {
+      console.log(data[i])
        // значения массива
         let arrKey = Object.keys(item)
-   
+
 // Проверка для браузера
       if ( data[i]) { 
         // перебираем данные массива, сравнивая их с данными полученными от клиента
         if (arrKey[0] === data[i].item_name ){
              // Возвращаем совпадения
+         item.ammo = data[i].ammo
+         item.rageId = data[i].rage_id
         return item
        } }
        
