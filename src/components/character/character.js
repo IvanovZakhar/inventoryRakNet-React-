@@ -5,6 +5,7 @@ import './character.css'
 
 function Character () {
     const [hands, setHands] = useState()
+    
     function dropHandler (e) {
        setHands(e.dragData.item)
        mp.trigger('itemValue', JSON.stringify(e.dragData));
