@@ -39,7 +39,13 @@ useEffect(()=> {
     const elem = Object.values(item);
     
   // Каждый раз вовзвращает id и item в котором содержится значения ключа
-    return {'id': id , item: elem[0], ammo: item.ammo, element: item.rageId}
+    return {'id': id , 
+            item: item.srcName, 
+            ammo: item.ammo, 
+            element: item.rageId, 
+            gunId: item.gunId,
+            playerId: item.playerId,
+            idGunTable: item.idGunTable}
   }): null;
   // Проверка для браузера
   elem ?  setInv(inv.map((item, id) => {

@@ -11,30 +11,49 @@ const InventoryItem = () => {
     // Получаем информацию данные с клиента
     if ("mp" in window){
         mp.events.add('setData', data => { 
-      
             setData(JSON.parse(data))
         })
     }
 
     console.log(data)
-    
-    const result = data ? arr.filter((item, i) => {
-      console.log(data[i])
-       // значения массива
-        let arrKey = Object.keys(item)
 
-// Проверка для браузера
-      if ( data[i]) { 
-        // перебираем данные массива, сравнивая их с данными полученными от клиента
-        if (arrKey[0] === data[i].item_name ){
-             // Возвращаем совпадения
-         item.ammo = data[i].ammo
-         item.rageId = data[i].rage_id
-        return item
-       } }
-       
+
+    const result = data ? data.filter((dataItem) => {
+                // перебираем масив из картинок 
+      let elem = arr.map(arrItem => {
+        // Если название ключа массива картинок совпадает с назаванием оружия, 
+        // то содержимое ключа массива(то есть ссылка на картинку) отправляется в массив под именем srcName
+        // таким образом каждый полученный предмет из бд будет объявлен вместе с картинкой
+        if(dataItem.item_name ===  Object.keys(arrItem)[0]){
+          dataItem.srcName = Object.values(arrItem)[0];
+          return dataItem;
+        }
+      })
+      return elem;
     }) : null;
+//     const result = data ? arr.filter((item, i) => {
+//       console.log(data[i])
+//        // значения массива
+//         let arrKey = Object.keys(item)
+//       // console.log(arrKey[0], data[i].item_name)
+// // Проверка для браузера
+//       if ( data[i]) { 
+//         console.log(arrKey[0], data[i].item_name)
+//         // перебираем данные массива, сравнивая их с данными полученными от клиента
+//         if (arrKey[0] === data[i].item_name ){
+//              // Возвращаем совпадения
+//          item.ammo = data[i].ammo
+//          item.rageId = data[i].rage_id
+//          item.gunId = data[i].gunId
+//          item.playerId = data[i].playerId
+//          item.idGunTable = data[i].idGunTable
+//          console.log(item)
+//         return item
+//        } }
+       
+//     }) : null;
     console.log(data)
+    console.log(result)
     return(
         {result}
     )

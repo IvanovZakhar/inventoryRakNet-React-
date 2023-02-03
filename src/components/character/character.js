@@ -7,6 +7,11 @@ function Character () {
     const [hands, setHands] = useState()
     function dropHandler (e) {
        setHands(e.dragData.item)
+       mp.trigger('itemValue', JSON.stringify(e.dragData));
+    }
+    function onDragItem (e){
+        console.log()
+       
     }
     console.log(hands)
     return(
@@ -38,7 +43,7 @@ function Character () {
                 </li>
             </ul>
             <DropTarget targetKey="item" 
-                    onDragEnter={(e) =>  console.log(e)}
+                    onDragEnter={(e) =>  onDragItem(e)}
                     onHit={(e) =>dropHandler(e)}
                    >
                 <div class="hands">
