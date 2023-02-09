@@ -42,7 +42,7 @@ useEffect(()=> {
     return {'id': id , 
             item: item.srcName, 
             ammo: item.ammo, 
-            element: item.rageId, 
+            element: item.rage_id, 
             gunId: item.gunId,
             playerId: item.playerId,
             idGunTable: item.idGunTable}
@@ -89,10 +89,20 @@ useEffect(()=> {
     e.preventDefault();
     setInv(inv.sort(sortCards).map(c => {
       if(c.id === card.id){
-        return{...c, item: currentCard.item}
+        return{...c, item: currentCard.item, 
+                     ammo: currentCard.ammo, 
+                     gunId: currentCard.gunId, 
+                     playerId: currentCard.playerId, 
+                     idGunTable: currentCard.idGunTable,
+                     element: currentCard.element}
       }
       if(c.id === currentCard.id){
-        return{...c, item: card.item}
+        return{...c, item: card.item, 
+                     ammo: card.ammo, 
+                     gunId: card.gunId, 
+                     playerId: card.playerId, 
+                     idGunTable: card.idGunTable,
+                     element: card.element}
       }
       return c
     }))

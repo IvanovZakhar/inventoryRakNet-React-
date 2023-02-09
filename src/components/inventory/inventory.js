@@ -19,8 +19,8 @@ const Inventory = () => {
 
 
 
-    const { result } = InventoryItem()
-    console.log(result)
+    const { resultInv, resultHands } = InventoryItem()
+    
     // const [className, setClass] = useState('hide')
     //      const data = [
     //             {weapon:'mp-5', ammunition: '800'},
@@ -41,8 +41,8 @@ const Inventory = () => {
 
         return(
             <div className="inventory">
-                <Character/>
-                <Row data={result}/>
+                <Character hands ={resultHands}/>
+                <Row data={resultInv}/>
             </div>
         )
     

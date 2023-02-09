@@ -1,10 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DropTarget } from 'react-drag-drop-container';
 import './character.css'
 
 
-function Character () {
+function Character (props) {
+    console.log(props)
     const [hands, setHands] = useState()
+
+    useEffect(()=>{
+        setHands(props.hands)
+    }, [props])
     
     function dropHandler (e) {
        setHands(e.dragData.item)
@@ -14,7 +19,7 @@ function Character () {
         console.log()
        
     }
-    console.log(hands)
+   console.log(hands)
     return(
         <div class="character">
             <div class="character">
@@ -48,7 +53,7 @@ function Character () {
                     onHit={(e) =>dropHandler(e)}
                    >
                 <div class="hands">
-                {hands ? <img src={hands} className="item" alt="item"/> : null }
+                {hands ? <img src={hands[0].srcName} className="item" alt="item"/> : null }
                 </div>
             </DropTarget>
             </div>
