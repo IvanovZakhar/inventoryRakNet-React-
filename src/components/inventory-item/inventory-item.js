@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AssaultRifle from '../../icon/Assault-rifle-icon.webp'
 import WeaponPistol from '../../icon/weapon_pistol.webp'
 import BaseballBat from '../../icon/weapon_bat.webp'
@@ -8,17 +8,30 @@ const InventoryItem = () => {
     const arr = [{AssaultRifle: AssaultRifle}, {  WeaponPistol: WeaponPistol}, {BaseballBat: BaseballBat}]
 
     const [data, setData] = useState('');
-    const [hands, setHands] = useState('');
+    const [hands, setHands] = useState('')
     // Получаем информацию данные с клиента
-    if ("mp" in window){
-        mp.events.add('setData', data => { 
+
+      if ("mp" in window){
+        mp.events.add('setInv', data => { 
           // data[0] - инвентарь
           // data[1] - руки
-            setData(JSON.parse(data)[0])
-            setHands(JSON.parse(data)[1])
+          console.log(data)
+            setData(JSON.parse([data]))
+        
+        })
+        mp.events.add('setHands', handsServer => {
+          console.log(handsServer) 
+          // data[0] - инвентарь
+          // data[1] - руки
+            setHands(JSON.parse([handsServer]))
+        
         })
     }
 
+
+    
+ 
+ 
 
 
     function returnPictersForItems (data){
@@ -35,7 +48,7 @@ const InventoryItem = () => {
                     })
                     return elem;
                     }) : null;
-                    console.log(item)
+                 
         return item;
     }
 
@@ -62,8 +75,10 @@ const InventoryItem = () => {
 //        } }
        
 //     }) : null;
-    console.log(resultInv)
-    console.log(resultHands)
+console.log(hands)
+console.log(data)
+ console.log(resultInv)
+ console.log(resultHands)
    
     return(
         {resultInv, resultHands}

@@ -1,24 +1,35 @@
 import { useState, useEffect } from 'react';
-import { DropTarget } from 'react-drag-drop-container';
+import { DropTarget, DragDropContainer } from 'react-drag-drop-container';
 import './character.css'
 
 
 function Character (props) {
     console.log(props)
+  
     const [hands, setHands] = useState()
 
     useEffect(()=>{
-        setHands(props.hands)
-    }, [props])
+        // const [id_item, item_name, rage_id, ammo, playerId, idGunTable, srcName] = props.hands[0]  
+        if(props.hands){
+            console.log(props.hands)
+            const {id_item, item_name, rage_id, ammo, playerId, idGunTable, srcName} = props.hands[0] 
+           
+            setHands({
+                      ammo: ammo, 
+                      element: rage_id, 
+                      gunId: id_item, 
+                      idGunTable, 
+                      item: srcName, 
+                      playerId})
+        }
+    }, [props.hands])
     
     function dropHandler (e) {
-       setHands(e.dragData.item)
+        console.log(e.dragData.item)
+       setHands(e.dragData)
        mp.trigger('itemValue', JSON.stringify(e.dragData));
     }
-    function onDragItem (e){
-        console.log()
-       
-    }
+ 
    console.log(hands)
     return(
         <div class="character">
@@ -49,12 +60,24 @@ function Character (props) {
                 </li>
             </ul>
             <DropTarget targetKey="item" 
-                    onDragEnter={(e) =>  onDragItem(e)}
-                    onHit={(e) =>dropHandler(e)}
+                    
+                    onHit={(e) => dropHandler(e)}
                    >
                 <div class="hands">
-                {hands ? <img src={hands[0].srcName} className="item" alt="item"/> : null }
+               
+                <DragDropContainer targetKey="item" 
+                                   dragData = {hands}
+                                   onDragStart={(e)=> {
+                                                        props.dragStartHandler(e, hands)
+                                                        setHands('')
+                                                        mp.trigger('removeItem',  JSON.stringify(hands))}
+                                                      }
+                                    >
+                    
+                      {hands ? <img src={hands.item} className="item" alt="hands-item"/> : null }
+                  </DragDropContainer>
                 </div>
+
             </DropTarget>
             </div>
         </div>
