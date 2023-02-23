@@ -9,7 +9,8 @@ const Row = (props) => {
   
 // Инвентарь с 16ю items
   const [inv, setInv] = useState(
-    [   {id: 1, item: null},
+    [   {id: 0, item: null},
+        {id: 1, item: null},
         {id: 2, item: null},
         {id: 3, item: null},
         {id: 4, item: null},
@@ -23,12 +24,13 @@ const Row = (props) => {
         {id: 12, item: null},
         {id: 13, item: null},
         {id: 14, item: null},
-        {id: 15, item: null},
-        {id: 16, item: null}]
+        {id: 15, item: null}
+        ]
   );
  
 // При изменении props 
 useEffect(()=> {
+  console.log('useEfect')
   // Элемент который получает укомплектованную базу по инвентарю. 
   const elem = props.data ? props.data.map((item, id) => {
  
@@ -52,7 +54,7 @@ useEffect(()=> {
       return(elem[id])
     }
     // когда элементы заканчиваются, возвращаются пустые строки инвентаря.
-    return item
+    return {id}
   })) : null;
 
 }, [props.data])
@@ -68,57 +70,76 @@ useEffect(()=> {
 
 
 
-  // function dropHandler (e, card){
-  //   console.log(e.dragData)
-  //   console.log(card)
-  //   if(!card.item){
-  //     setInv(inv.map(inv => {
-  //       if(inv.id === card.id){
-  //         return{...inv,
-  //                        item: e.dragData.item,
-  //                        ammo: e.dragData.ammo,
-  //                        gunId: e.dragData.gunId,
-  //                        playerId: e.dragData.playerId,
-  //                        element: e.dragData.element,
-  //                        idGunTable: e.dragData.idGunTable
-  //                        }
-  //       }
-  //       return inv
-  //     }))
-  //   }
-  // }
+  function dropHandler (e, card){
+    console.log(e.dragData)
+    console.log(card)
 
-  function dropHandler(e, card){
-    e.preventDefault();
- 
-    const{currentCard} = props;
+    setInv(inv.map(elem => {
 
-    setInv(inv.sort(sortCards).map(c => {
-      if(c.id === card.id){
-        return{...c, 
-                    item: e.dragData.item,
-                    ammo: e.dragData.ammo,
-                    gunId: e.dragData.gunId,
-                    playerId: e.dragData.playerId,
-                    element: e.dragData.element,
-                    idGunTable: e.dragData.idGunTable
-                    }
+      if(elem.id === card.id){
+        return {...elem, 
+                         item: e.dragData.item,
+                         ammo: e.dragData.ammo,
+                         gunId: e.dragData.gunId,
+                         playerId: e.dragData.playerId,
+                         element: e.dragData.element,
+                         idGunTable: e.dragData.idGunTable
+        }
       }
-      if(c.id === currentCard.id){
-        return{...c, 
-                      item: card.item, 
-                     ammo: card.ammo, 
-                     gunId: card.gunId, 
-                     playerId: card.playerId, 
-                     idGunTable: card.idGunTable,
-                     element: card.element
-                    }
+      if(elem.id === e.dragData.id){
+        return {id: elem.id}
       }
-      return c
+      return elem
     }))
+    // if(!card.item){
+    //   setInv(inv.map(inv => {
+    //     if(inv.id === card.id){
+    //       return{...inv,
+    //                      item: e.dragData.item,
+    //                      ammo: e.dragData.ammo,
+    //                      gunId: e.dragData.gunId,
+    //                      playerId: e.dragData.playerId,
+    //                      element: e.dragData.element,
+    //                      idGunTable: e.dragData.idGunTable
+    //                      }
+    //     }
+    //     return inv
+    //   }))
+    // }
+  }
+
+  // function dropHandler(e, card){
+  //   e.preventDefault();
+  //  console.log(e)
+  
+  //   const{currentCard} = props;
+
+  //   setInv(inv.sort(sortCards).map(c => {
+  //     if(c.id === card.id){
+  //       return{...c, 
+  //                   item: e.dragData.item,
+  //                   ammo: e.dragData.ammo,
+  //                   gunId: e.dragData.gunId,
+  //                   playerId: e.dragData.playerId,
+  //                   element: e.dragData.element,
+  //                   idGunTable: e.dragData.idGunTable
+  //                   }
+  //     }
+  //     if(c.id === currentCard.id){
+  //       return{...c, 
+  //                     item: card.item, 
+  //                    ammo: card.ammo, 
+  //                    gunId: card.gunId, 
+  //                    playerId: card.playerId, 
+  //                    idGunTable: card.idGunTable,
+  //                    element: card.element
+  //                   }
+  //     }
+  //     return c
+  //   }))
   
 
-  }
+  // }
 
   const sortCards = (a, b) => {
     if(a.id > b.id){
@@ -131,15 +152,16 @@ useEffect(()=> {
   const inventory = inv.map((card) => 
  
               <DropTarget targetKey="item" 
-              
                 onHit={(e) => dropHandler(e, card)}
+        
                 key={card.id}>
             
                 <div className="placeholder" >
                   
                     <DragDropContainer targetKey="item" 
                                       dragData = {card} 
-                                      onDragStart={(e)=>  props.dragStartHandler(e, card)}>
+                                      // onDragStart={(e)=>  props.dragStartHandler(e, card)}
+                                      >
                     
                       { card.item ? <img src={card.item} className="item" alt="inventory-item"/> : null}
                     </DragDropContainer>
@@ -151,7 +173,7 @@ useEffect(()=> {
   // onClick={() => {mp.trigger('itemValue', JSON.stringify({'item': 'myGun'}))}}
   // onDragEnter={(e)=> console.log(` enter ${e}`)}
   // onDragLeave={(e)=> console.log(` leave ${e}`)}
-
+console.log(inv)
   
   return(
 

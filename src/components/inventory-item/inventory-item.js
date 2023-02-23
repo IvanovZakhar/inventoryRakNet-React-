@@ -15,12 +15,12 @@ const InventoryItem = () => {
         mp.events.add('setInv', data => { 
           // data[0] - инвентарь
           // data[1] - руки
-          console.log(data)
+   
             setData(JSON.parse([data]))
         
         })
         mp.events.add('setHands', handsServer => {
-          console.log(handsServer) 
+       
           // data[0] - инвентарь
           // data[1] - руки
             setHands(JSON.parse([handsServer]))
@@ -30,8 +30,8 @@ const InventoryItem = () => {
 
 
     
- 
- 
+ console.log(hands)
+ console.log(data)
 
 
     function returnPictersForItems (data){
@@ -75,10 +75,7 @@ const InventoryItem = () => {
 //        } }
        
 //     }) : null;
-console.log(hands)
-console.log(data)
- console.log(resultInv)
- console.log(resultHands)
+ 
    
     return(
         {resultInv, resultHands}

@@ -4,14 +4,16 @@ import './character.css'
 
 
 function Character (props) {
-    console.log(props)
+    const count = props.hands ? props.hands[0]: null;
+    console.log(count)
   
     const [hands, setHands] = useState()
 
     useEffect(()=>{
         // const [id_item, item_name, rage_id, ammo, playerId, idGunTable, srcName] = props.hands[0]  
         if(props.hands){
-            console.log(props.hands)
+            console.log("useEffectCharacter")
+        console.log(props.hands)
             const {id_item, item_name, rage_id, ammo, playerId, idGunTable, srcName} = props.hands[0] 
            
             setHands({
@@ -22,15 +24,15 @@ function Character (props) {
                       item: srcName, 
                       playerId})
         }
-    }, [props.hands])
+    }, [count])
     
     function dropHandler (e) {
-        console.log(e.dragData.item)
+   
        setHands(e.dragData)
        mp.trigger('itemValue', JSON.stringify(e.dragData));
     }
  
-   console.log(hands)
+ console.log(hands)
     return(
         <div class="character">
             <div class="character">
@@ -67,10 +69,11 @@ function Character (props) {
                
                 <DragDropContainer targetKey="item" 
                                    dragData = {hands}
-                                   onDragStart={(e)=> {
-                                                        props.dragStartHandler(e, hands)
+                                   onDrop={(e)=> {  
+                                                        
                                                         setHands('')
-                                                        mp.trigger('removeItem',  JSON.stringify(hands))}
+                                                        mp.trigger('removeItem',  JSON.stringify(hands))
+                                                    }
                                                       }
                                     >
                     

@@ -8,7 +8,7 @@ import './inventory.css';
 
 
 const Inventory = () => {
-    const [data, setData] = useState('');
+    const [pos, setPos] = useState(false);
 
     // if ("mp" in window){
     //     mp.events.add('setData', data => { 
@@ -16,11 +16,24 @@ const Inventory = () => {
     //     })
     // }
 
+    function onUpdateClassName  (e){
+        if(e.key === 'e' || e.key === 'E'){
+            setPos(!pos)
+            mp.invoke('focus', !pos)
+        }
+    }
 
-
+   useEffect(()=> {
+    window.addEventListener('keydown', onUpdateClassName )
+    return () =>{
+        window.removeEventListener('keydown', onUpdateClassName )
+    }
+   })
 
     const { resultInv, resultHands } = InventoryItem()
-    const[currentCard, setCurrentCard] = useState(null);
+
+
+    // const[currentCard, setCurrentCard] = useState(null);
     // const [className, setClass] = useState('hide')
     //      const data = [
     //             {weapon:'mp-5', ammunition: '800'},
@@ -39,16 +52,18 @@ const Inventory = () => {
     //         };
     //         }, []);
 
-    function dragStartHandler (e, card){
-        console.log(e)
-        console.log(card)
-         setCurrentCard(card);
-      }
-
+    // function dragStartHandler (e, card){
+    //     console.log(e)
+    //     console.log(card)
+    //      setCurrentCard(card);
+    //   }
+ const className = pos ? "inventory active"  : 'inventory'
         return(
-            <div className="inventory">
-                <Character hands ={resultHands} dragStartHandler={dragStartHandler}/>
-                <Row data={resultInv} currentCard={currentCard} dragStartHandler={dragStartHandler}/>
+            <div className={className}>
+                {/* <Character hands ={resultHands} dragStartHandler={dragStartHandler}/> */}
+                <Character hands ={resultHands} />
+                {/* <Row data={resultInv} currentCard={currentCard} dragStartHandler={dragStartHandler}/> */}
+                <Row data={resultInv}/>
             </div>
         )
     

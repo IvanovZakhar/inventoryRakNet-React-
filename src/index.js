@@ -4,13 +4,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import Inventory from './components/inventory/inventory';
 
-if ("mp.events.add" in window)  mp.events.add('setData', state => {console.log(state)})
-
+ 
+function onUpdateClassName  (e){
+    console.log(e.key)
+}
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     
-
-    <Inventory/>
+    <Inventory onKeyPress={e => onUpdateClassName(e) } />
 );
 
 

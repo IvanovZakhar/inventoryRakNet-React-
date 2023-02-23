@@ -1,5 +1,9 @@
 .inventory{
-    display: flex;
+    display: none;
     justify-content: space-around;
     padding: 100px 0px 100px 0px;
   }
+
+.active{
+  display: flex;
+}
