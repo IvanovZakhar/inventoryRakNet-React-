@@ -30,7 +30,7 @@ const Row = (props) => {
  
 // При изменении props 
 useEffect(()=> {
-  console.log('useEfect')
+ 
   // Элемент который получает укомплектованную базу по инвентарю. 
   const elem = props.data ? props.data.map((item, id) => {
  
@@ -61,21 +61,13 @@ useEffect(()=> {
 
 
 
-
-// Сложноватая технология drag and drop инвентаря, ссылка с объяснением  https://www.youtube.com/watch?v=FgvJH91a5K0
-
-
-
-
-
-
-
+ 
+// Получает информацию о перемещении предметов в инвентаре 
   function dropHandler (e, card){
-    console.log(e.dragData)
-    console.log(card)
-
+   // e.dragData - это массив с перемещаемым предметом
+   // card - это информация о ячейки инвентаря 
     setInv(inv.map(elem => {
-
+    // если перебираемый id элемента совпадает с ячейкой инвентаря, то он заполняется информацией перемещяемого предмета
       if(elem.id === card.id){
         return {...elem, 
                          item: e.dragData.item,
@@ -86,83 +78,29 @@ useEffect(()=> {
                          idGunTable: e.dragData.idGunTable
         }
       }
+      // данная проверка сделана для того что бы ячейка в котором лежал предмет до перемещения опустощалась 
       if(elem.id === e.dragData.id){
         return {id: elem.id}
       }
       return elem
     }))
-    // if(!card.item){
-    //   setInv(inv.map(inv => {
-    //     if(inv.id === card.id){
-    //       return{...inv,
-    //                      item: e.dragData.item,
-    //                      ammo: e.dragData.ammo,
-    //                      gunId: e.dragData.gunId,
-    //                      playerId: e.dragData.playerId,
-    //                      element: e.dragData.element,
-    //                      idGunTable: e.dragData.idGunTable
-    //                      }
-    //     }
-    //     return inv
-    //   }))
-    // }
+ 
   }
 
-  // function dropHandler(e, card){
-  //   e.preventDefault();
-  //  console.log(e)
-  
-  //   const{currentCard} = props;
-
-  //   setInv(inv.sort(sortCards).map(c => {
-  //     if(c.id === card.id){
-  //       return{...c, 
-  //                   item: e.dragData.item,
-  //                   ammo: e.dragData.ammo,
-  //                   gunId: e.dragData.gunId,
-  //                   playerId: e.dragData.playerId,
-  //                   element: e.dragData.element,
-  //                   idGunTable: e.dragData.idGunTable
-  //                   }
-  //     }
-  //     if(c.id === currentCard.id){
-  //       return{...c, 
-  //                     item: card.item, 
-  //                    ammo: card.ammo, 
-  //                    gunId: card.gunId, 
-  //                    playerId: card.playerId, 
-  //                    idGunTable: card.idGunTable,
-  //                    element: card.element
-  //                   }
-  //     }
-  //     return c
-  //   }))
-  
-
-  // }
-
-  const sortCards = (a, b) => {
-    if(a.id > b.id){
-      return 1
-    }else{ 
-      return -1
-    }
-  }
+   
  
   const inventory = inv.map((card) => 
  
               <DropTarget targetKey="item" 
-                onHit={(e) => dropHandler(e, card)}
-        
-                key={card.id}>
+              // onHit - событие сробатывает при сбрасывании предмета над ячейкой
+                          onHit={(e) => dropHandler(e, card)}
+                          key={card.id}>
             
                 <div className="placeholder" >
                   
                     <DragDropContainer targetKey="item" 
-                                      dragData = {card} 
-                                      // onDragStart={(e)=>  props.dragStartHandler(e, card)}
-                                      >
-                    
+                                      dragData = {card}>
+                  
                       { card.item ? <img src={card.item} className="item" alt="inventory-item"/> : null}
                     </DragDropContainer>
                 </div>
@@ -170,11 +108,7 @@ useEffect(()=> {
        
     ) 
 
-  // onClick={() => {mp.trigger('itemValue', JSON.stringify({'item': 'myGun'}))}}
-  // onDragEnter={(e)=> console.log(` enter ${e}`)}
-  // onDragLeave={(e)=> console.log(` leave ${e}`)}
-console.log(inv)
-  
+ 
   return(
 
         <div className="row">

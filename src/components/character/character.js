@@ -4,17 +4,16 @@ import './character.css'
 
 
 function Character (props) {
-    const count = props.hands ? props.hands[0]: null;
-    console.log(count)
-  
+    // Данная переменная предназначена для useEffect, если ее значение изменяется, меняется значение hands
+    const pos = props.hands ? props.hands[0]: null;
+ 
+    // информация о руках персонажа 
     const [hands, setHands] = useState()
 
     useEffect(()=>{
-        // const [id_item, item_name, rage_id, ammo, playerId, idGunTable, srcName] = props.hands[0]  
         if(props.hands){
-            console.log("useEffectCharacter")
-        console.log(props.hands)
-            const {id_item, item_name, rage_id, ammo, playerId, idGunTable, srcName} = props.hands[0] 
+    
+            const {id_item, item_name, rage_id, ammo, playerId, idGunTable, srcName} = pos 
            
             setHands({
                       ammo: ammo, 
@@ -23,16 +22,33 @@ function Character (props) {
                       idGunTable, 
                       item: srcName, 
                       playerId})
+        }else{
+            setHands(null)
         }
-    }, [count])
+    }, [pos])
     
+
+    // Устанавливает значение об полученом предемете hands и отправляет через клиент событие о нем на сервер
     function dropHandler (e) {
-   
-       setHands(e.dragData)
-       mp.trigger('itemValue', JSON.stringify(e.dragData));
+        console.log('onHit!')
+        console.log(e.dragData)
+        
+       if(pos){
+        setHands(null)
+       }else{
+        setHands(e.dragData);
+        mp.trigger('itemValue', JSON.stringify(e.dragData));
+       }
+       
+    }
+   // Удаляет значение в руках и отправляет удаление на сервер через клиент
+    function onDrop (e) {
+        console.log(' onDrop')
+        console.log(hands)
+        console.log(pos)
+        mp.trigger('removeItem',  JSON.stringify(hands))
     }
  
- console.log(hands)
     return(
         <div class="character">
             <div class="character">
@@ -62,20 +78,15 @@ function Character (props) {
                 </li>
             </ul>
             <DropTarget targetKey="item" 
-                    
+                 
                     onHit={(e) => dropHandler(e)}
                    >
                 <div class="hands">
                
                 <DragDropContainer targetKey="item" 
                                    dragData = {hands}
-                                   onDrop={(e)=> {  
-                                                        
-                                                        setHands('')
-                                                        mp.trigger('removeItem',  JSON.stringify(hands))
-                                                    }
-                                                      }
-                                    >
+                                   onDrop={(e)=> onDrop(e)}
+                                   >
                     
                       {hands ? <img src={hands.item} className="item" alt="hands-item"/> : null }
                   </DragDropContainer>

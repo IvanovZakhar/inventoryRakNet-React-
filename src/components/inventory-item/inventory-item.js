@@ -17,21 +17,19 @@ const InventoryItem = () => {
           // data[1] - руки
    
             setData(JSON.parse([data]))
-        
+            
         })
         mp.events.add('setHands', handsServer => {
        
           // data[0] - инвентарь
           // data[1] - руки
             setHands(JSON.parse([handsServer]))
-        
+     
         })
     }
 
 
-    
- console.log(hands)
- console.log(data)
+ 
 
 
     function returnPictersForItems (data){
@@ -54,29 +52,9 @@ const InventoryItem = () => {
 
     const resultInv = returnPictersForItems(data);
     const resultHands = returnPictersForItems(hands);
-//     const result = data ? arr.filter((item, i) => {
-//       console.log(data[i])
-//        // значения массива
-//         let arrKey = Object.keys(item)
-//       // console.log(arrKey[0], data[i].item_name)
-// // Проверка для браузера
-//       if ( data[i]) { 
-//         console.log(arrKey[0], data[i].item_name)
-//         // перебираем данные массива, сравнивая их с данными полученными от клиента
-//         if (arrKey[0] === data[i].item_name ){
-//              // Возвращаем совпадения
-//          item.ammo = data[i].ammo
-//          item.rageId = data[i].rage_id
-//          item.gunId = data[i].gunId
-//          item.playerId = data[i].playerId
-//          item.idGunTable = data[i].idGunTable
-//          console.log(item)
-//         return item
-//        } }
-       
-//     }) : null;
  
-   
+ 
+
     return(
         {resultInv, resultHands}
     )
