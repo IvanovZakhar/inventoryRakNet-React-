@@ -64,11 +64,17 @@ useEffect(()=> {
  
 // Получает информацию о перемещении предметов в инвентаре 
   function dropHandler (e, card){
+    // Если у e.dragData нет id, то значит, что предмет получен из рук
+    if(!e.dragData.id){
+      // после получения предмета из рук отправляем на сервер информацию о нем 
+      mp.trigger('removeItem',  JSON.stringify(e.dragData))
+    }
    // e.dragData - это массив с перемещаемым предметом
    // card - это информация о ячейки инвентаря 
     setInv(inv.map(elem => {
     // если перебираемый id элемента совпадает с ячейкой инвентаря, то он заполняется информацией перемещяемого предмета
       if(elem.id === card.id){
+        console.log(e.dragData)
         return {...elem, 
                          item: e.dragData.item,
                          ammo: e.dragData.ammo,
@@ -82,6 +88,7 @@ useEffect(()=> {
       if(elem.id === e.dragData.id){
         return {id: elem.id}
       }
+
       return elem
     }))
  
@@ -108,7 +115,7 @@ useEffect(()=> {
        
     ) 
 
- 
+ console.log(inv)
   return(
 
         <div className="row">
